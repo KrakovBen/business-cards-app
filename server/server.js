@@ -5,6 +5,9 @@ const express = require('express');
 const app = express();
 const router = require('./router/router');
 
+const { origin } = require('./middlewares/cors');
+
+app.use(origin);
 app.use(express.json());
 app.use(express.static('./public'));
 
