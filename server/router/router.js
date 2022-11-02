@@ -8,7 +8,7 @@ const { handleError } = require('../utils/errorHandler');
 router.use('/cards', cardsRestController);
 router.use('/users', usersRestController);
 
-router.use((req, res) => {
+router.use((err, req, res, next) => {
     handleError(res, 404, 'Error 404: Page not found.')
 });
 
