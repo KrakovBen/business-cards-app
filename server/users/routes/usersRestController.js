@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const { registerUser, loginUser, getUsers, getUser, updateUser, changeUserBusinessStatus, deleteUser } = require('../service/userService');
 const router = express.Router();
+const { handleError } = require('../../utils/errorHandler');
 const PORT = process.env.PORT || 8181;
 const EndPoint = `http://localhost:${PORT}/users`;
 

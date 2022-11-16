@@ -29,7 +29,7 @@ const findOne = async (_id) => {
 const login = async (_user) => {
     if(DB === 'mongoDB'){
         try {
-            _user._id = '1234';
+            _user._id = 'ID 1234';
             return Promise.resolve(`In login ${_user._id}`);
         } catch (error) {
             error.status = 404;
@@ -43,7 +43,7 @@ const login = async (_user) => {
 const register = async (_user) => {
     if(DB === 'mongoDB'){
         try {
-            _user._id = '1234';
+            _user._id = 'ID 1234';
             return Promise.resolve(_user._id);
         } catch (error) {
             error.status = 404;
