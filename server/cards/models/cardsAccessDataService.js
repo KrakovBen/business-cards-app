@@ -1,4 +1,6 @@
 const DB = process.env.DB || 'mongoDB';
+const mongoose = require('mongoose');
+const CardSchema = require('./mongoDB/Cards');
 
 const find = async () => {
     if(DB === 'mongoDB'){
@@ -26,11 +28,12 @@ const findOne = async (_id) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const create = async (_card) => {
+const create = async (normalizeCard) => {
     if(DB === 'mongoDB'){
         try {
-            _card._id = '1234';
-            return Promise.resolve(_card);
+            const card = new CardSchema(normalizeCard);
+            await card.save();
+            return Promise.resolve(card);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);

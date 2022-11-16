@@ -24,7 +24,7 @@ const validateCardWithJoi = (card) => {
         }).required(),
         bizNumber: Joi.number().allow(""),
         user_id: Joi.string().allow("")
-    })
+    });
 
     return schema.validate(card);
 }

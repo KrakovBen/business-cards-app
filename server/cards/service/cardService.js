@@ -1,6 +1,7 @@
 const { handleJoiError } = require("../../utils/errorHandler");
 const { find, findOne, create, remove, update, like, findMyCards } = require('../models/cardsAccessDataService');
 const validateCard = require('../validations/cardValidationService');
+const normalizeCard = require('../helpers/normalizeCard');
 
 const getCards = async () => {
     try {
@@ -25,8 +26,7 @@ const createCard = async (_rawCard) => {
     if (error) return handleJoiError(error);
 
     try {
-        let card = {..._rawCard};
-        card.createdAt = new Date();
+        let card = normalizeCard(_rawCard);
         card = await create(card);
         return Promise.resolve(card);
     } catch (error) {

@@ -44,4 +44,5 @@ const CardSchema = mongoose.Schema({
     likes: [String]
 });
 
-module.exports = CardSchema;
+module.exports = mongoose.model("card", CardSchema);
+// module.exports = CardSchema;

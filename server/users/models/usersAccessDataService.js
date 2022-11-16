@@ -1,4 +1,5 @@
 const DB = process.env.DB || 'mongoDB';
+const UserSchema = require('./mongoDB/User');
 
 const find = async () => {
     if(DB === 'mongoDB'){
@@ -43,8 +44,9 @@ const login = async (_user) => {
 const register = async (_user) => {
     if(DB === 'mongoDB'){
         try {
-            _user._id = 'ID 1234';
-            return Promise.resolve(_user._id);
+            const user = new UserSchema(_user);
+            await user.save();
+            return Promise.resolve(_user);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
