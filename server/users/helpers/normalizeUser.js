@@ -1,5 +1,5 @@
-const normalizeUser = (rawUser) => {
-    return rawUser;
-}
-
-module.exports = normalizeUser;
+const normalizeUser = rawUser => {
+    return { ...rawUser, isUserNormalized: true };
+};
+  
+module.exports = normalizeUser;  

@@ -1,12 +1,16 @@
 require('dotenv').config();
 const express = require('express');
-const { registerUser, loginUser, getUsers, getUser, updateUser, changeUserBusinessStatus, deleteUser } = require('../service/userService');
+const { registerUser, loginUser, getUsers, getUser, updateUser, changeUserBusinessStatus, deleteUser } = require('../models/usersAccessDataService');
 const router = express.Router();
 const { handleError } = require('../../utils/errorHandler');
-const PORT = process.env.PORT || 8181;
-const EndPoint = `http://localhost:${PORT}/users`;
+const { validateRegistration, validateLogin, validateUserUpdate} = require('../validations/userValidationService');
+const normalizeUser = require('../helpers/normalizeUser');
 
 router.post('/', async (req, res) => {
+    
+    const { error } = validateRegistration(req.body);
+    if (error) return handleError(error);
+    
     try {
         const user = await registerUser(req.body);
         return res.send(user).status(201);
@@ -16,6 +20,9 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+    const { error } = validateLogin(req.body);
+    if (error) return handleError(error);
+
     try {
         const user = await loginUser(req.body);
         return res.send(user);
@@ -44,9 +51,13 @@ router.get('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const id = req.params.id;
     try {
-        const user = await updateUser(id);
+        const { id } = req.params;
+        let user = req.body;
+        const { error } = validateUserUpdate(user);
+        if (error) return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
+        user = normalizeUser(user);
+        user = await updateUser(id, user);
         return res.send(user);
     } catch (error) {
         return handleError(res, error.status || 500, error.message);

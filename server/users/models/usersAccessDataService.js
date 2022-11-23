@@ -1,7 +1,7 @@
 const DB = process.env.DB || 'mongoDB';
 const UserSchema = require('./mongoDB/User');
 
-const find = async () => {
+const getUsers = async () => {
     if(DB === 'mongoDB'){
         try {
             return Promise.resolve([{users:'In mongoDB'}]);
@@ -14,7 +14,7 @@ const find = async () => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const findOne = async (_id) => {
+const getUser = async (_id) => {
     if(DB === 'mongoDB'){
         try {
             return Promise.resolve(`User number ${_id}`);
@@ -27,7 +27,7 @@ const findOne = async (_id) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const login = async (_user) => {
+const loginUser = async (_user) => {
     if(DB === 'mongoDB'){
         try {
             _user._id = 'ID 1234';
@@ -41,7 +41,7 @@ const login = async (_user) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const register = async (_user) => {
+const registerUser = async (_user) => {
     if(DB === 'mongoDB'){
         try {
             const user = new UserSchema(_user);
@@ -56,7 +56,7 @@ const register = async (_user) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const remove = async (_id) => {
+const deleteUser = async (_id) => {
     if(DB === 'mongoDB'){
         try {
             return Promise.resolve(`User number ${_id} Deleted!`);
@@ -69,7 +69,7 @@ const remove = async (_id) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const update = async (_id, _user) => {
+const updateUser = async (_id, _user) => {
     if(DB === 'mongoDB'){
         try {
             return Promise.resolve(`User number ${_id} Updated!`);
@@ -82,7 +82,7 @@ const update = async (_id, _user) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const changeIsBizStatus = async (_id_user) => {
+const changeUserBusinessStatus = async (_id_user) => {
     if(DB === 'mongoDB'){
         try {
             return Promise.resolve(`User number ${_id_user} is Business!!`);
@@ -96,4 +96,4 @@ const changeIsBizStatus = async (_id_user) => {
 };
 
 
-module.exports = { find, findOne, remove, update, changeIsBizStatus, login, register };
+module.exports = { getUsers, getUser, loginUser, registerUser, deleteUser, updateUser, changeUserBusinessStatus };

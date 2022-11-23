@@ -1,10 +1,10 @@
 require('dotenv').config();
 const express = require('express');
 const { handleError } = require('../../utils/errorHandler');
-const { getCards, getCard, createCard, deleteCard, updateCard, likeCard, getMyCards } = require('../service/cardService');
+const normalizeCard = require('../helpers/normalizeCard');
+const { getCards, getCard, createCard, deleteCard, updateCard, likeCard, getMyCards } = require('../models/cardsAccessDataService');
+const validateCard = require('../validations/cardValidationService');
 const router = express.Router();
-const PORT = process.env.PORT || 8181;
-const EndPoint = `http://localhost:${PORT}/cards`;
 
 router.get('/', async (req, res) => {
     try {
@@ -37,8 +37,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const card = await createCard(req.body);
-        return res.send(card);
+        let card = req.body;
+        const { error } = validateCard(card);
+        if (error) return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
+
+        card = await normalizeCard(card);
+        card = await createCard(card);
+        return res.status(201).send(card);
     } catch (error) {
         return handleError(res, error.status || 500, error.message);
     }
@@ -55,18 +60,25 @@ router.delete('/:id', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const id = req.params.id;
     try {
-        const card = await updateCard(id, req.body);
+        let card = req.body;
+        const cardId = req.params.id;
+    
+        const { error } = validateCard(card);
+        if (error)
+          return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
+    
+        card = await normalizeCard(card);
+        card = await updateCard(cardId, card);
         return res.send(card);
-    } catch (error) {
+      } catch (error) {
         return handleError(res, error.status || 500, error.message);
-    }
+      }
 });
 
 router.patch('/:id', async (req, res) => {
     const id = req.params.id;
-    const userId = "12345";
+    const userId = "637e8e0f56021a127704e2e5";
     try {
         const card = await likeCard(id, userId);
         return res.send(card);

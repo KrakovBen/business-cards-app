@@ -2,10 +2,12 @@ const DB = process.env.DB || 'mongoDB';
 const mongoose = require('mongoose');
 const CardSchema = require('./mongoDB/Cards');
 
-const find = async () => {
+const getCards = async () => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve([{cards:'In mongoDB'}]);
+            const getCards = mongoose.model('card', CardSchema);
+            const cards = await getCards.find();
+            return Promise.resolve(cards);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -15,10 +17,13 @@ const find = async () => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const findOne = async (_id) => {
+const getCard = async (id) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`Card number ${_id}`);
+            const getCard = mongoose.model('card', CardSchema);
+            let card = await getCard.findById(id);
+            if (!card) card = 'Could not fint this id in DataBase';
+            return Promise.resolve(card);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -28,10 +33,11 @@ const findOne = async (_id) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const create = async (normalizeCard) => {
+const createCard = async (normalizeCard) => {
     if(DB === 'mongoDB'){
         try {
-            const card = new CardSchema(normalizeCard);
+            const createCard = mongoose.model('card', CardSchema)
+            const card = new createCard(normalizeCard);
             await card.save();
             return Promise.resolve(card);
         } catch (error) {
@@ -43,10 +49,13 @@ const create = async (normalizeCard) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const remove = async (_id) => {
+const deleteCard = async (_id) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`Card number ${_id} Deleted!`);
+            const deleteCard = mongoose.model('card', CardSchema);
+            let card = await deleteCard.findByIdAndDelete(_id);
+            if (!card) card = "Could not find this Card ID";
+            return Promise.resolve(card);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -56,10 +65,12 @@ const remove = async (_id) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const update = async (_id, _card) => {
+const updateCard = async (_id, normalizeCard) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`Card number ${_id} Updated!`);
+            const updateCard = mongoose.model('card', CardSchema);
+            let card = await updateCard.findByIdAndUpdate(_id, normalizeCard, {new: true});
+            return Promise.resolve(card);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -69,10 +80,33 @@ const update = async (_id, _card) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const like = async (_id_card, _id_user) => {
+const likeCard = async (_id_card, _id_user) => {
+    let msg = "";
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`Card number ${_id_card} Liked by ${_id_user}!`);
+            const likeCard = mongoose.model('card', CardSchema);
+            let card = await likeCard.findById(_id_card);
+
+            if (!card) {
+                msg = 'Could not find this card ID';
+            } else {
+                if(!card.likes.length) {
+                    card.likes.push(_id_user);
+                    msg = `${_id_user} Like`;
+                } else {
+                    const index = card.likes.findIndex(id => id === _id_user);
+                    if (index === -1) {
+                        card.likes.push(_id_user);
+                        msg = `${_id_user} Like`;
+                    } else {
+                        card.likes.pop(index);
+                        msg = `${_id_user} unLike`;
+                    }
+                }
+                await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+            }
+
+            return Promise.resolve(msg);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -82,10 +116,13 @@ const like = async (_id_card, _id_user) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const findMyCards = async(userId) => {
+const getMyCards = async(userId) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`My cards ${userId}!`);
+            const getCard = mongoose.model('card', CardSchema);
+            let card = await getCard.findOne({_id: userId});
+            if (!card) card = 'Could not fint this id in DataBase';
+            return Promise.resolve(card);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -95,4 +132,4 @@ const findMyCards = async(userId) => {
     return Promise.resolve('Not in mongoDB');
 }
 
-module.exports = { find, findOne, create, remove, update, like, findMyCards };
+module.exports = { getCards, getCard, createCard, deleteCard, updateCard, likeCard, getMyCards };
