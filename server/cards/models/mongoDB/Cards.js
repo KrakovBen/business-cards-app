@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const imageSchema = require('./Images');
 const addressSchema = require('./Address');
 
-const defualtString = {
+const defaultString = {
     type: String,
     trim: true,
     minLength: 2,
@@ -10,9 +10,9 @@ const defualtString = {
 }
 
 const CardSchema = mongoose.Schema({
-    title: defualtString,
-    subtitle: defualtString,
-    description: defualtString,
+    title: defaultString,
+    subtitle: defaultString,
+    description: defaultString,
     phone: {
         type:String,
         match: RegExp(/^[0][5][0|2|3|4|5|8|9]{1}[-]{0,1}[0-9]{7}$/g)
@@ -38,7 +38,7 @@ const CardSchema = mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        defualt: new Date()
+        default: new Date()
     },
     // user_id: {
     //     type: mongoose.Schema.Types.ObjectId

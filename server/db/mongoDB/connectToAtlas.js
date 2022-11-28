@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
+const config= require('config');
 const DB_NAME = config.get("DB_NAME");
 const DB_PASSWORD = config.get("DB_PASSWORD");
 

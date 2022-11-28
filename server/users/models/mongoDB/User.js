@@ -24,15 +24,15 @@ const UserSchema = mongoose.Schema({
     address: addressSchema,
     isAdmin: {
         type: Boolean,
-        defualt: false
+        default: false
     },
     isBusiness: {
         type: Boolean,
-        defualt: false
+        default: false
     },
     createdAt: {
         type: Date,
-        defualt: new Date()
+        default: new Date()
     }
 });
 

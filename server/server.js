@@ -6,6 +6,7 @@ const chalk = require('chalk');
 const router = require('./router/router');
 const cors = require('./middlewares/cors');
 const logger = require('./logger/loggerService');
+const generateInitialCards = require('./initialData/initialDataService');
 
 require('./utils/timeService');
 
@@ -21,4 +22,5 @@ const ENV = config.get("NODE_ENV");
 app.listen(PORT, () => {
     console.log(chalk.yellowBright(`Listening on: http://localhost:${PORT}`));
     connectToDB(ENV);
+    generateInitialCards();
 });

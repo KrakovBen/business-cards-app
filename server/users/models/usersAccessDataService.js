@@ -1,8 +1,10 @@
-const DB = process.env.DB || 'mongoDB';
+const config= require('config');
+const DB = config.get("DB");
 const normalizeUser = require('../helpers/normalizeUser');
 const UserSchema = require('./mongoDB/User');
 const { pick } = require('lodash');
 const { comparePassword } = require('../helpers/bcrypt');
+const { generateAuthToken } = require('../../auth/providers/jwt');
 
 const getUsers = async () => {
     if(DB === 'mongoDB'){
@@ -34,12 +36,14 @@ const loginUser = async ({email, password}) => {
     if(DB === 'mongoDB'){
         try {
             const user = await UserSchema.findOne({email});
+            console.log(user);
             if (!user) throw new Error('Invalid email or Password.');
 
             const validPassword = comparePassword(password, user.password);
             if(!validPassword) throw new Error('Invalid email or Password.');
 
-            return Promise.resolve(`${email} Connected`);
+            const token = generateAuthToken(user);
+            return Promise.resolve({'token': token, "msg": "Connected"});
         } catch (error) {
             error.status = 403;
             return Promise.reject(error);

@@ -5,6 +5,7 @@ const normalizeCard = require('../helpers/normalizeCard');
 const { getCards, getCard, createCard, deleteCard, updateCard, likeCard, getMyCards } = require('../models/cardsAccessDataService');
 const validateCard = require('../validations/cardValidationService');
 const router = express.Router();
+const auth = require('../../auth/authService');
 
 router.get('/', async (req, res) => {
     try {
@@ -35,8 +36,10 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     try {
+        if(!req.user.isBusiness) throw new Error('You are not a business account');
+
         let card = req.body;
         const { error } = validateCard(card);
         if (error) return handleError(res, 400, `Joi Error: ${error.details[0].message}`);
@@ -76,7 +79,8 @@ router.put('/:id', async (req, res) => {
       }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
+
     const id = req.params.id;
     const userId = "637e8e0f56021a127704e2e5";
     try {

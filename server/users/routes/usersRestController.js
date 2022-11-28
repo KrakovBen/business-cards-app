@@ -2,39 +2,44 @@ require('dotenv').config();
 const express = require('express');
 const { registerUser, loginUser, getUsers, getUser, updateUser, changeUserBusinessStatus, deleteUser } = require('../models/usersAccessDataService');
 const router = express.Router();
-const { handleError } = require('../../utils/errorHandler');
+const { handleError, handleJoiError } = require('../../utils/errorHandler');
 const { validateRegistration, validateLogin, validateUserUpdate} = require('../validations/userValidationService');
 const normalizeUser = require('../helpers/normalizeUser');
 const { generateUserPassword } = require('../helpers/bcrypt');
+const auth = require('../../auth/authService');
 
 router.post('/', async (req, res) => {
     let user = req.body;
     const { error } = validateRegistration(user);
-    if (error) return handleError(error);
+    if (error) return handleJoiError(error);
     
     try {
         user.password = generateUserPassword(user.password);
         user = await registerUser(req.body);
         return res.send(user).status(201);
     } catch (error) {
-        return handleError(res, error.status || 500, error.message);
+        error.status = 400;
+        return handleError(res, error.status, error.message);
     }
 });
 
 router.post('/login', async (req, res) => {
     const { error } = validateLogin(req.body);
-    if (error) return handleError(error);
+    if (error) return handleJoiError(error);
 
     try {
         const user = await loginUser(req.body);
         return res.send(user);
     } catch (error) {
-        return handleError(res, error.status || 500, error.message);
+        error.status = 400;
+        return handleError(res, error.status, error.message);
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     try {
+        if(!req.user.isAdmin) throw new Error('You are not Authorised');
+
         const users = await getUsers();
         return res.send(users);
     } catch (error) {

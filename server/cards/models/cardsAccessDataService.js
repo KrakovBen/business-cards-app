@@ -1,4 +1,5 @@
-const DB = process.env.DB || 'mongoDB';
+const config= require('config');
+const DB = config.get("DB");
 const mongoose = require('mongoose');
 const CardSchema = require('./mongoDB/Cards');
 

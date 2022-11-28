@@ -1,0 +1,48 @@
+{
+    "users": [
+        {
+            "name": {
+                "first": "ben",
+                "middle": "",
+                "last": "krakovsky"
+            },
+            "isBusiness": false,
+            "phone": "0502299004",
+            "email": "Admin1@krakov.co",
+            "password": "Aa123456!",
+            "image": {
+                "url": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+                "alt": "Google Logo"
+            },
+            "address": {
+                "country": "Israel",
+                "city": "Tel Aviv",
+                "street": "Yod Lamed Peretz Street",
+                "houseNumber": 1,
+                "zip": 12345
+            }
+        }
+    ],
+    "cards": [
+        {
+            "title": "title val",
+            "subtitle": "subtitle val",
+            "description": "some desc",
+            "phone": "0500000000",
+            "email": "ben@krakov.co",
+            "web": "https://krakov.co",
+            "image": {
+                "url": "https://www.istoreil.co.il/media/wysiwyg/2022/main/apple-watch-series-8/series-8_large.png",
+                "alt": "Wowww this is Apple Watch"
+            },
+            "address":{
+                "state":"israel",
+                "country":"israel",
+                "city":"Tel Aviv",
+                "street":"STREET",
+                "houseNumber": 1,
+                "zip":"123456"
+            }
+        }
+    ]
+}
