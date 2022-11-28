@@ -5,14 +5,16 @@ const router = express.Router();
 const { handleError } = require('../../utils/errorHandler');
 const { validateRegistration, validateLogin, validateUserUpdate} = require('../validations/userValidationService');
 const normalizeUser = require('../helpers/normalizeUser');
+const { generateUserPassword } = require('../helpers/bcrypt');
 
 router.post('/', async (req, res) => {
-    
-    const { error } = validateRegistration(req.body);
+    let user = req.body;
+    const { error } = validateRegistration(user);
     if (error) return handleError(error);
     
     try {
-        const user = await registerUser(req.body);
+        user.password = generateUserPassword(user.password);
+        user = await registerUser(req.body);
         return res.send(user).status(201);
     } catch (error) {
         return handleError(res, error.status || 500, error.message);

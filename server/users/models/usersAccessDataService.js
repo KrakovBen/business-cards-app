@@ -1,5 +1,8 @@
 const DB = process.env.DB || 'mongoDB';
+const normalizeUser = require('../helpers/normalizeUser');
 const UserSchema = require('./mongoDB/User');
+const { pick } = require('lodash');
+const { comparePassword } = require('../helpers/bcrypt');
 
 const getUsers = async () => {
     if(DB === 'mongoDB'){
@@ -27,13 +30,18 @@ const getUser = async (_id) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const loginUser = async (_user) => {
+const loginUser = async ({email, password}) => {
     if(DB === 'mongoDB'){
         try {
-            _user._id = 'ID 1234';
-            return Promise.resolve(`In login ${_user._id}`);
+            const user = await UserSchema.findOne({email});
+            if (!user) throw new Error('Invalid email or Password.');
+
+            const validPassword = comparePassword(password, user.password);
+            if(!validPassword) throw new Error('Invalid email or Password.');
+
+            return Promise.resolve(`${email} Connected`);
         } catch (error) {
-            error.status = 404;
+            error.status = 403;
             return Promise.reject(error);
         }
     }
@@ -41,12 +49,16 @@ const loginUser = async (_user) => {
     return Promise.resolve('Not in mongoDB');
 };
 
-const registerUser = async (_user) => {
+const registerUser = async (normalizeUser) => {
     if(DB === 'mongoDB'){
         try {
-            const user = new UserSchema(_user);
-            await user.save();
-            return Promise.resolve(_user);
+            const { email } = normalizeUser;
+            let user = await UserSchema.findOne({email});
+            if (user) throw new Error('This Email is already registered!');
+            user = new UserSchema(normalizeUser);
+            user = await user.save();
+            user = pick(user, ['name', 'email', '_id']);
+            return Promise.resolve(user);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);

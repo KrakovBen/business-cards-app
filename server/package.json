@@ -4,13 +4,15 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "start": "node .",
-        "dev": "nodemon ."
+        "start": "export NODE_ENV=production&& node .",
+        "dev": "export NODE_ENV=development&& nodemon ."
     },
     "author": "Krakov",
     "license": "ISC",
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "chalk": "^4.1.1",
+        "config": "^3.3.8",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.1",

@@ -70,6 +70,7 @@ const updateCard = async (_id, normalizeCard) => {
         try {
             const updateCard = mongoose.model('card', CardSchema);
             let card = await updateCard.findByIdAndUpdate(_id, normalizeCard, {new: true});
+            if (!card) throw new Error(`Could not find this id - ${_id}`)
             return Promise.resolve(card);
         } catch (error) {
             error.status = 404;
@@ -87,26 +88,45 @@ const likeCard = async (_id_card, _id_user) => {
             const likeCard = mongoose.model('card', CardSchema);
             let card = await likeCard.findById(_id_card);
 
-            if (!card) {
-                msg = 'Could not find this card ID';
-            } else {
-                if(!card.likes.length) {
-                    card.likes.push(_id_user);
-                    msg = `${_id_user} Like`;
-                } else {
-                    const index = card.likes.findIndex(id => id === _id_user);
-                    if (index === -1) {
-                        card.likes.push(_id_user);
-                        msg = `${_id_user} Like`;
-                    } else {
-                        card.likes.pop(index);
-                        msg = `${_id_user} unLike`;
-                    }
-                }
+            if (!card) throw new Error('Could not find this card ID');
+
+            if(!card.likes.length) {
+                card.likes.push(_id_user);
                 await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+                return Promise.resolve(`${_id_user} Like`);
             }
 
-            return Promise.resolve(msg);
+            const index = card.likes.findIndex(id => id === _id_user);
+            if (index === -1) {
+                card.likes.push(_id_user);
+                await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+                return Promise.resolve(`${_id_user} Like`);
+            }
+
+            card.likes.pop(index);
+            await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+            return Promise.resolve(`${_id_user} unLike`);
+
+            // if (!card) {
+            //     throw new Error('Could not find this card ID');
+            // } else {
+            //     if(!card.likes.length) {
+            //         card.likes.push(_id_user);
+            //         msg = `${_id_user} Like`;
+            //     } else {
+            //         const index = card.likes.findIndex(id => id === _id_user);
+            //         if (index === -1) {
+            //             card.likes.push(_id_user);
+            //             msg = `${_id_user} Like`;
+            //         } else {
+            //             card.likes.pop(index);
+            //             msg = `${_id_user} unLike`;
+            //         }
+            //     }
+            //     await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+            // }
+
+            // return Promise.resolve(msg);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
