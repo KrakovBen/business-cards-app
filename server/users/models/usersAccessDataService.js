@@ -1,15 +1,17 @@
 const config= require('config');
 const DB = config.get("DB");
-const normalizeUser = require('../helpers/normalizeUser');
 const UserSchema = require('./mongoDB/User');
 const { pick } = require('lodash');
 const { comparePassword } = require('../helpers/bcrypt');
 const { generateAuthToken } = require('../../auth/providers/jwt');
+const LoginUserSchema = require('../models/mongoDB/Login');
 
 const getUsers = async () => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve([{users:'In mongoDB'}]);
+            const users = await UserSchema.find({},{password: 0});
+            if(!users.length) return "No Users";
+            return Promise.resolve(users);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -22,7 +24,9 @@ const getUsers = async () => {
 const getUser = async (_id) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`User number ${_id}`);
+            const user = await UserSchema.findById(_id, {password: 0, isAdmin: 0, __v: 0});
+            if(!user) throw new Error ('No User Found');
+            return Promise.resolve(user);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -35,14 +39,41 @@ const getUser = async (_id) => {
 const loginUser = async ({email, password}) => {
     if(DB === 'mongoDB'){
         try {
+
             const user = await UserSchema.findOne({email});
-            console.log(user);
             if (!user) throw new Error('Invalid email or Password.');
 
             const validPassword = comparePassword(password, user.password);
-            if(!validPassword) throw new Error('Invalid email or Password.');
+            let counter = await LoginUserSchema.findOne({userId: user._id});
 
+            if(counter){
+                if(counter.counter.length === 3){
+                    const now = new Date();
+                    const diff = now - counter.counter[2];
+                    const day = 3600 * 1000 * 24;
+    
+                    if(diff < day) throw new Error(`You need to a wait 24 Hours`);
+                    await LoginUserSchema.findByIdAndDelete(counter._id);
+                }
+            }
+
+            if(!validPassword) {
+                if(!counter) {
+                    let login = {userId: user._id, counter: [new Date()]};
+                    login = new LoginUserSchema(login);
+                    await login.save();
+                    throw new Error('Invalid email or Password.');
+                }
+
+                if(counter.counter.length < 3){
+                    counter.counter.push(new Date());
+                    await LoginUserSchema.findByIdAndUpdate(counter._id, {counter: counter.counter});
+                    throw new Error('Invalid email or Password.');
+                }
+            };
+            
             const token = generateAuthToken(user);
+            await LoginUserSchema.findByIdAndDelete(counter._id);
             return Promise.resolve({'token': token, "msg": "Connected"});
         } catch (error) {
             error.status = 403;
@@ -75,7 +106,9 @@ const registerUser = async (normalizeUser) => {
 const deleteUser = async (_id) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`User number ${_id} Deleted!`);
+            const user = await UserSchema.findByIdAndDelete(_id, {isAdmin:0, password:0});
+            if(!user) throw new Error('No User Found!');
+            return Promise.resolve(user);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -88,7 +121,10 @@ const deleteUser = async (_id) => {
 const updateUser = async (_id, _user) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`User number ${_id} Updated!`);
+            const user = await UserSchema.findByIdAndUpdate(_id, _user);
+            if(!user) throw new Error ('No User Found');
+            const res = await UserSchema.findById(_id).select(['-password','-isAdmin','-__v']);
+            return Promise.resolve(res);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -101,7 +137,10 @@ const updateUser = async (_id, _user) => {
 const changeUserBusinessStatus = async (_id_user) => {
     if(DB === 'mongoDB'){
         try {
-            return Promise.resolve(`User number ${_id_user} is Business!!`);
+            const user = await UserSchema.findById(_id_user, {isBusiness: 1, _id: 0} );
+            if(!user) throw new Error ('No User Found');
+            const update = await UserSchema.findByIdAndUpdate(_id_user, {isBusiness: !user.isBusiness}, ).select(["-password","-isAdmin","-__v"]);
+            return Promise.resolve(update);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);

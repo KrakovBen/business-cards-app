@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
+const { DEFAULT_VALIDATORE } = require('../../helpers/mongooseValidator');
 
 const NameSchema = mongoose.Schema({
-    first: {
+    first: DEFAULT_VALIDATORE,
+    middle: {
         type: String,
-        minLength: 2,
-        required: true
+        maxLength: 256,
+        trim: true,
+        lowercase: true
     },
-    last: {
-        type: String,
-        minLength: 2,
-        required: true
-    }
+    last: DEFAULT_VALIDATORE
 })
 
 module.exports = NameSchema;

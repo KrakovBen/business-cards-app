@@ -2,12 +2,35 @@
     "users": [
         {
             "name": {
-                "first": "ben",
+                "first": "Admin",
                 "middle": "",
-                "last": "krakovsky"
+                "last": "Ben"
+            },
+            "isBusiness": true,
+            "isAdmin": true,
+            "phone": "0500000000",
+            "email": "Admin@krakov.co",
+            "password": "Aa123456!",
+            "image": {
+                "url": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+                "alt": "Google Logo"
+            },
+            "address": {
+                "country": "Israel",
+                "city": "Tel Aviv",
+                "street": "Street Name",
+                "houseNumber": 1,
+                "zip": 12345
+            }
+        },
+        {
+            "name": {
+                "first": "Ben",
+                "middle": "",
+                "last": "Krakovsky"
             },
             "isBusiness": false,
-            "phone": "0502299004",
+            "phone": "0500000000",
             "email": "Admin1@krakov.co",
             "password": "Aa123456!",
             "image": {
@@ -17,7 +40,29 @@
             "address": {
                 "country": "Israel",
                 "city": "Tel Aviv",
-                "street": "Yod Lamed Peretz Street",
+                "street": "Street Name",
+                "houseNumber": 1,
+                "zip": 12345
+            }
+        },
+        {
+            "name": {
+                "first": "Ben",
+                "middle": "",
+                "last": "Krakovsky"
+            },
+            "isBusiness": true,
+            "phone": "0500000000",
+            "email": "Admin2@krakov.co",
+            "password": "Aa123456!",
+            "image": {
+                "url": "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+                "alt": "Google Logo"
+            },
+            "address": {
+                "country": "Israel",
+                "city": "Tel Aviv",
+                "street": "Street Name",
                 "houseNumber": 1,
                 "zip": 12345
             }
@@ -25,12 +70,52 @@
     ],
     "cards": [
         {
-            "title": "title val",
-            "subtitle": "subtitle val",
+            "title": "Business Name",
+            "subtitle": "Business Headline",
             "description": "some desc",
             "phone": "0500000000",
-            "email": "ben@krakov.co",
-            "web": "https://krakov.co",
+            "email": "admin@gmail.com",
+            "web": "https://www.hackampus.com",
+            "image": {
+                "url": "https://www.istoreil.co.il/media/wysiwyg/2022/main/apple-watch-series-8/series-8_large.png",
+                "alt": "Wowww this is Apple Watch"
+            },
+            "address":{
+                "state":"israel",
+                "country":"israel",
+                "city":"Tel Aviv",
+                "street":"STREET",
+                "houseNumber": 1,
+                "zip":"123456"
+            }
+        },
+        {
+            "title": "Business Name",
+            "subtitle": "Business Headline",
+            "description": "some desc",
+            "phone": "0500000000",
+            "email": "admin1@gmail.com",
+            "web": "https://www.hackampus.com",
+            "image": {
+                "url": "https://www.istoreil.co.il/media/wysiwyg/2022/main/apple-watch-series-8/series-8_large.png",
+                "alt": "Wowww this is Apple Watch"
+            },
+            "address":{
+                "state":"israel",
+                "country":"israel",
+                "city":"Tel Aviv",
+                "street":"STREET",
+                "houseNumber": 1,
+                "zip":"123456"
+            }
+        },
+        {
+            "title": "Business Name",
+            "subtitle": "Business Headline",
+            "description": "some desc",
+            "phone": "0500000000",
+            "email": "admin2@gmail.com",
+            "web": "https://www.hackampus.com",
             "image": {
                 "url": "https://www.istoreil.co.il/media/wysiwyg/2022/main/apple-watch-series-8/series-8_large.png",
                 "alt": "Wowww this is Apple Watch"

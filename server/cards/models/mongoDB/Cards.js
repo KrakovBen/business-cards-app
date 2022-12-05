@@ -40,11 +40,10 @@ const CardSchema = mongoose.Schema({
         type: Date,
         default: new Date()
     },
-    // user_id: {
-    //     type: mongoose.Schema.Types.ObjectId
-    // },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     likes: [String]
 });
 
-// module.exports = mongoose.model("card", CardSchema);
 module.exports = CardSchema;

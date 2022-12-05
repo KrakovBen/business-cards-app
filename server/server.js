@@ -19,8 +19,8 @@ app.use(router);
 const PORT = config.get("PORT");
 const ENV = config.get("NODE_ENV");
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(chalk.yellowBright(`Listening on: http://localhost:${PORT}`));
     connectToDB(ENV);
-    generateInitialCards();
+    await generateInitialCards();
 });
