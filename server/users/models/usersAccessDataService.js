@@ -39,6 +39,7 @@ const getUser = async (_id) => {
 const loginUser = async ({email, password}) => {
     if(DB === 'mongoDB'){
         try {
+            const nowTime = new Date();
 
             const user = await UserSchema.findOne({email});
             if (!user) throw new Error('Invalid email or Password.');
@@ -48,8 +49,7 @@ const loginUser = async ({email, password}) => {
 
             if(counter){
                 if(counter.counter.length === 3){
-                    const now = new Date();
-                    const diff = now - counter.counter[2];
+                    const diff = nowTime - counter.counter[2];
                     const day = 3600 * 1000 * 24;
     
                     if(diff < day) throw new Error(`You need to wait 24 hours to login`);
@@ -59,14 +59,14 @@ const loginUser = async ({email, password}) => {
 
             if(!validPassword) {
                 if(!counter) {
-                    let login = {userId: user._id, counter: [new Date()]};
+                    let login = {userId: user._id, counter: [nowTime]};
                     login = new LoginUserSchema(login);
                     await login.save();
                     throw new Error('Invalid email or Password.');
                 }
 
                 if(counter.counter.length < 3){
-                    counter.counter.push(new Date());
+                    counter.counter.push(nowTime);
                     await LoginUserSchema.findByIdAndUpdate(counter._id, {counter: counter.counter});
                     throw new Error('Invalid email or Password.');
                 }
