@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const { registerUser, loginUser, getUsers, getUser, updateUser, changeUserBusinessStatus, deleteUser } = require('../models/usersAccessDataService');
 const router = express.Router();
-const { handleError, handleJoiError } = require('../../utils/errorHandler');
+const { handleError } = require('../../utils/errorHandler');
 const { validateRegistration, validateLogin, validateUserUpdate} = require('../validations/userValidationService');
 const normalizeUser = require('../helpers/normalizeUser');
 const { generateUserPassword } = require('../helpers/bcrypt');
