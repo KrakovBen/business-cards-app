@@ -1,18 +1,12 @@
 const mongoose = require('mongoose');
 const imageSchema = require('./Images');
 const addressSchema = require('./Address');
-
-const defaultString = {
-    type: String,
-    trim: true,
-    minLength: 2,
-    required: true
-}
+const DEFAULT_SCHEMA_STRING = require('../../helpers/defaultSchemaString');
 
 const CardSchema = mongoose.Schema({
-    title: defaultString,
-    subtitle: defaultString,
-    description: defaultString,
+    title: DEFAULT_SCHEMA_STRING,
+    subtitle: DEFAULT_SCHEMA_STRING,
+    description: DEFAULT_SCHEMA_STRING,
     phone: {
         type:String,
         match: RegExp(/^[0][5][0|2|3|4|5|8|9]{1}[-]{0,1}[0-9]{7}$/g)
@@ -22,6 +16,7 @@ const CardSchema = mongoose.Schema({
         trim: true,
         required: true,
         unique: true,
+        lowercase: true,
         match: RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)
     },
     web: {

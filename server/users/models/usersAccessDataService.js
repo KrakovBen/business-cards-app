@@ -125,10 +125,9 @@ const deleteUser = async (_id) => {
 const updateUser = async (_id, _user) => {
     if(DB === 'mongoDB'){
         try {
-            const user = await UserSchema.findByIdAndUpdate(_id, _user);
+            const user = await UserSchema.findByIdAndUpdate(_id, _user, {new: true}).select(["-password","-isAdmin","-__v"]);
             if(!user) throw new Error ('No User Found');
-            const res = await UserSchema.findById(_id).select(['-password','-isAdmin','-__v']);
-            return Promise.resolve(res);
+            return Promise.resolve(user);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
@@ -141,10 +140,10 @@ const updateUser = async (_id, _user) => {
 const changeUserBusinessStatus = async (_id_user) => {
     if(DB === 'mongoDB'){
         try {
-            const user = await UserSchema.findById(_id_user, {isBusiness: 1, _id: 0} );
+            let user = await UserSchema.findById(_id_user, {isBusiness: 1, _id: 0} );
             if(!user) throw new Error ('No User Found');
-            const update = await UserSchema.findByIdAndUpdate(_id_user, {isBusiness: !user.isBusiness}, ).select(["-password","-isAdmin","-__v"]);
-            return Promise.resolve(update);
+            user = await UserSchema.findByIdAndUpdate(_id_user, {isBusiness: !user.isBusiness}, {new: true}).select(["-password","-isAdmin","-__v"]);
+            return Promise.resolve(user);
         } catch (error) {
             error.status = 404;
             return Promise.reject(error);
