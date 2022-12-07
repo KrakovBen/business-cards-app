@@ -52,7 +52,7 @@ const loginUser = async ({email, password}) => {
                     const diff = now - counter.counter[2];
                     const day = 3600 * 1000 * 24;
     
-                    if(diff < day) throw new Error(`You need to a wait 24 Hours`);
+                    if(diff < day) throw new Error(`You need to wait 24 hours to login`);
                     await LoginUserSchema.findByIdAndDelete(counter._id);
                 }
             }
@@ -73,7 +73,11 @@ const loginUser = async ({email, password}) => {
             };
             
             const token = generateAuthToken(user);
-            await LoginUserSchema.findByIdAndDelete(counter._id);
+
+            if(counter){
+                await LoginUserSchema.findByIdAndDelete(counter._id);
+            }
+
             return Promise.resolve({'token': token, "msg": "Connected"});
         } catch (error) {
             error.status = 403;

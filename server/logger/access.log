@@ -1,5 +1,0 @@
-::1 - - [05/Dec/2022:22:42:19 +0000] "POST /users HTTP/1.1" 404 33 "-" "PostmanRuntime/7.29.2"
-::1 - - [05/Dec/2022:22:44:56 +0000] "POST /users HTTP/1.1" 404 33 "-" "PostmanRuntime/7.29.2"
-::1 - - [05/Dec/2022:22:44:59 +0000] "POST /users HTTP/1.1" 404 33 "-" "PostmanRuntime/7.29.2"
-::1 - - [05/Dec/2022:22:45:02 +0000] "POST /users HTTP/1.1" 404 33 "-" "PostmanRuntime/7.29.2"
-::1 - - [05/Dec/2022:22:45:05 +0000] "POST /users HTTP/1.1" 404 33 "-" "PostmanRuntime/7.29.2"
