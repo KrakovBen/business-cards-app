@@ -78,7 +78,7 @@ const loginUser = async ({email, password}) => {
                 await LoginUserSchema.findByIdAndDelete(counter._id);
             }
 
-            return Promise.resolve({'token': token, "msg": "Connected"});
+            return Promise.resolve({'token': token, 'msg': 'Connected'});
         } catch (error) {
             error.status = 403;
             return Promise.reject(error);
