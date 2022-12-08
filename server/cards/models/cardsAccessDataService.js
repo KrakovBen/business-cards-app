@@ -101,19 +101,19 @@ const likeCard = async (_id_card, _id_user) => {
 
             if(!card.likes.length) {
                 card.likes.push(_id_user);
-                card = await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+                card = await likeCard.findByIdAndUpdate(card._id, {likes: card.likes},{new: true});
                 return Promise.resolve(card);
             }
 
             const index = card.likes.findIndex(id => id === _id_user);
             if (index === -1) {
                 card.likes.push(_id_user);
-                card = await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+                card = await likeCard.findByIdAndUpdate(card._id, {likes: card.likes},{new: true});
                 return Promise.resolve(card);
             }
 
             card.likes.pop(index);
-            card = await likeCard.findByIdAndUpdate(card._id, {likes: card.likes});
+            card = await likeCard.findByIdAndUpdate(card._id, {likes: card.likes},{new: true});
             return Promise.resolve(card);
 
         } catch (error) {
