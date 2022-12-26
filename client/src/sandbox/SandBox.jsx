@@ -1,6 +1,8 @@
 import React from 'react'
 // import InlineStyle from './InlineStyle'
-import MuiSandBox from './mui-sandbox/MuiSandBox'
+// import MuiSandBox from './mui-sandbox/MuiSandBox'
+import FatherPropsObject from './props/props-object/FatherPropsObject'
+// import FatherPropsString from './props/props-string/FatherPropsString'
 // import CompLogic from './CompLogic'
 // import StringInterpolation from './StringInterpolation'
 
@@ -10,7 +12,9 @@ function SandBox() {
         {/* <CompLogic/> */}
         {/* <StringInterpolation/> */}
         {/* <InlineStyle/> */}
-        <MuiSandBox />
+        {/* <MuiSandBox /> */}
+        {/* <FatherPropsString /> */}
+        <FatherPropsObject />
     </div>
   )
 }
