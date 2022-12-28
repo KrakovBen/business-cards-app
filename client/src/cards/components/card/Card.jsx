@@ -24,7 +24,7 @@ function CardComponent({card, handleDeleteCard, handleLikeCard}) {
 }
 
 CardComponent.propTypes = {
-    card: objectOf(CardType)
+    card: objectOf(CardType).isRequired
 }
 
 export default CardComponent

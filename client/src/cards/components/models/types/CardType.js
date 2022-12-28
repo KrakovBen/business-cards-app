@@ -18,4 +18,9 @@ const CardType = shape({
     likes: arrayOf(string).isRequired
 });
 
+CardType.defaultProps = {
+    web: undefined,
+    likes: []
+}
+
 export default CardType
