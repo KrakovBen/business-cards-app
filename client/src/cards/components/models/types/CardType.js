@@ -2,7 +2,7 @@ import { arrayOf, number, shape, string } from 'prop-types'
 import addressType from './addressType'
 import imageType from './imageType'
 
-const CardType = shape({
+const cardType = shape({
     _id: string,
     title: string.isRequired,
     subtitle: string.isRequired,
@@ -18,9 +18,9 @@ const CardType = shape({
     likes: arrayOf(string).isRequired
 });
 
-CardType.defaultProps = {
+cardType.defaultProps = {
     web: undefined,
     likes: []
 }
 
-export default CardType
+export default cardType

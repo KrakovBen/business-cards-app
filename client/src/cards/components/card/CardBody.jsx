@@ -4,13 +4,13 @@ import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import CardHeader from '@mui/material/CardHeader'
 import Box from '@mui/material/Box'
+import cardType from '../models/types/cardType'
 
 const strongFont = {
     fontWeight: 600
 }
 
-const CardBody = (props) => {
-    const { card } = props
+const CardBody = ({card}) => {
     return (
         <CardContent>
             <CardHeader title={card.title} subheader={card.subtitle} sx={{ p: 0, mb: 1}} />
@@ -31,6 +31,10 @@ const CardBody = (props) => {
             </Box>
         </CardContent>
     )
+}
+
+CardBody.protoType = {
+    card: cardType.isRequired
 }
 
 export default CardBody

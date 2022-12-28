@@ -4,8 +4,8 @@ import { CardActionArea } from '@mui/material'
 import CardHead from './CardHead'
 import CardBody from './CardBody'
 import CardActionBar from './CardActionBar'
-import { objectOf } from 'prop-types'
-import CardType from '../models/types/CardType'
+import { func } from 'prop-types'
+import cardType from '../models/types/cardType'
 
 function CardComponent({card, handleDeleteCard, handleLikeCard}) {
 
@@ -24,7 +24,9 @@ function CardComponent({card, handleDeleteCard, handleLikeCard}) {
 }
 
 CardComponent.propTypes = {
-    card: objectOf(CardType).isRequired
+    card: cardType.isRequired,
+    handleDeleteCard: func.isRequired,
+    handleLikeCard: func.isRequired
 }
 
 export default CardComponent
