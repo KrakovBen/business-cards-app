@@ -33,7 +33,7 @@ const CardBody = ({card}) => {
     )
 }
 
-CardBody.protoType = {
+CardBody.protoTypes = {
     card: cardType.isRequired
 }
 

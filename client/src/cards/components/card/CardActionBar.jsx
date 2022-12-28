@@ -6,6 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import Deletelcon from '@mui/icons-material/Delete'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import CallIcon from '@mui/icons-material/Call'
+import { func, string } from 'prop-types'
 
 const CardActionBar = ({cardId, handleDeleteCard, handleLikeCard}) => {
     return (
@@ -28,6 +29,12 @@ const CardActionBar = ({cardId, handleDeleteCard, handleLikeCard}) => {
             </Box>
         </CardActions>
     )
+}
+
+CardActionBar.protoTypes = {
+    cardId: string,
+    handleDeleteCard: func,
+    handleLikeCard: func
 }
 
 export default CardActionBar
