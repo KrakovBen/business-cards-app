@@ -89,17 +89,8 @@ const CardsComponent = () => {
         "__v": 0
     }]
 
-    const handleCardDelete = (bizNumber) => {
-        console.log(`You Deleted Card Number - ${bizNumber}`);
-    }
-
-    const handleCardLike = (bizNumber) => {
-        console.log(`You Liked Card Number - ${bizNumber}`);
-    }
-
-    const handleCardEdit = (bizNumber) => {
-        console.log(`You Edit Card Number - ${bizNumber}`);
-    }
+    const handleDeleteCard = (cardId) => console.log(`You Deleted Card Number - ${cardId}`);
+    const handleLikeCard = (cardId) => console.log(`You Liked Card Number - ${cardId}`);
 
     if(!cards.length) return (
         <Typography>Oops.. it seems there are no business cards to display.</Typography>
@@ -109,7 +100,7 @@ const CardsComponent = () => {
         <Grid container spacing={2} direction="row" justifyContent="space-between">
             {cards.map((card) => (
                     <Grid item xs={12} md={6} xl={4} key={card._id}>
-                        <CardComponent card={card} onDeleteClick={handleCardDelete} onLikeClick={handleCardLike} onEditClick={handleCardEdit}/>
+                        <CardComponent card={card} handleDeleteCard={handleDeleteCard} handleLikeCard={handleLikeCard}/>
                     </Grid>
                 )
             )}

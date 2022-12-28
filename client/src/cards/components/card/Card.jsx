@@ -4,8 +4,10 @@ import { CardActionArea } from '@mui/material'
 import CardHead from './CardHead'
 import CardBody from './CardBody'
 import CardActionBar from './CardActionBar'
+import { objectOf } from 'prop-types'
+import CardType from '../models/types/CardType'
 
-function CardComponent({card, onDeleteClick, onLikeClick, onEditClick}) {
+function CardComponent({card, handleDeleteCard, handleLikeCard}) {
 
     return (
         <Card sx={{ minWidth: 280 }} >
@@ -16,9 +18,13 @@ function CardComponent({card, onDeleteClick, onLikeClick, onEditClick}) {
                 <CardBody card={card}/>
             </CardActionArea>
             {/* Card Actions */}
-            <CardActionBar onDeleteClick={onDeleteClick} onLikeClick={onLikeClick} onEditClick={onEditClick} bizNumber={card.bizNumber} />
+            <CardActionBar cardId={card._id} handleDeleteCard={handleDeleteCard} handleLikeCard={handleLikeCard} />
         </Card>
     )
+}
+
+CardComponent.propTypes = {
+    card: objectOf(CardType)
 }
 
 export default CardComponent
