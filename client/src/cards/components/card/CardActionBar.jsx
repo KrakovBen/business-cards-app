@@ -31,10 +31,10 @@ const CardActionBar = ({cardId, handleDeleteCard, handleLikeCard}) => {
     )
 }
 
-CardActionBar.protoTypes = {
-    cardId: string,
-    handleDeleteCard: func,
-    handleLikeCard: func
+CardActionBar.propTypes = {
+    cardId: string.isRequired,
+    handleDeleteCard: func.isRequired,
+    handleLikeCard: func.isRequired
 }
 
 export default CardActionBar

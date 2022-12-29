@@ -1,4 +1,4 @@
-import { arrayOf, number, shape, string } from 'prop-types'
+import { arrayOf, number, oneOfType, shape, string } from 'prop-types'
 import addressType from './addressType'
 import imageType from './imageType'
 
@@ -9,7 +9,7 @@ const cardType = shape({
     description: string.isRequired,
     phone: string.isRequired,
     email: string.isRequired,
-    web: string.isRequired,
+    web: oneOfType([string]).isRequired,
     image: imageType.isRequired,
     address: addressType.isRequired,
     bizNumber: number.isRequired,
@@ -17,10 +17,5 @@ const cardType = shape({
     user_id: string.isRequired,
     likes: arrayOf(string).isRequired
 });
-
-cardType.defaultProps = {
-    web: undefined,
-    likes: []
-}
 
 export default cardType
