@@ -5,7 +5,7 @@ import CardHead from './CardHead'
 import CardBody from './CardBody'
 import CardActionBar from './CardActionBar'
 import { func } from 'prop-types'
-import cardType from '../models/types/cardType'
+import cardType from '../../models/types/cardType'
 
 function CardComponent({card, handleDeleteCard, handleLikeCard}) {
 
