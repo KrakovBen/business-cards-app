@@ -6,12 +6,15 @@ import CardBody from './CardBody'
 import CardActionBar from './CardActionBar'
 import { func } from 'prop-types'
 import cardType from '../../models/types/cardType'
+import { useNavigate } from 'react-router-dom'
+import ROUTES from '../../../routes/routesModel'
 
 function CardComponent({card, handleDeleteCard, handleLikeCard}) {
+    const navigate = useNavigate();
 
     return (
         <Card sx={{ minWidth: 280 }} >
-            <CardActionArea>
+            <CardActionArea onClick={() => navigate(`${ROUTES.CARD_DETAILS}/${card._id}`)}>
                 {/* Card Head */}
                 <CardHead image={card.image} />
                 {/* Card Body */}

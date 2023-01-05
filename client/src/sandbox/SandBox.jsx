@@ -1,20 +1,21 @@
 import React from 'react'
-// import InlineStyle from './InlineStyle'
-// import MuiSandBox from './mui-sandbox/MuiSandBox'
-import FatherPropsObject from './props/props-object/FatherPropsObject'
-// import FatherPropsString from './props/props-string/FatherPropsString'
-// import CompLogic from './CompLogic'
-// import StringInterpolation from './StringInterpolation'
+import SetPost from './hooks/SetPost'
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import NavItem from '../routes/NavItem'
+import { Outlet } from 'react-router-dom'
+import { fontWeight } from '@mui/system'
 
 function SandBox() {
   return (
     <div>
-        {/* <CompLogic/> */}
-        {/* <StringInterpolation/> */}
-        {/* <InlineStyle/> */}
-        {/* <MuiSandBox /> */}
-        {/* <FatherPropsString /> */}
-        <FatherPropsObject />
+      <AppBar position="sticky" color="transparent">
+        <Toolbar>
+          <NavItem to='logic' label='Logic' sx={{ color: '#333' }}/>
+        </Toolbar>
+      </AppBar>
+
+      <Outlet/>
     </div>
   )
 }
