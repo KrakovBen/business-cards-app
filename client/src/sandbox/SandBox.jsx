@@ -11,6 +11,8 @@ function SandBox() {
         <Toolbar>
           <NavItem to='logic' label='Logic' sx={{ color: '#333' }}/>
           <NavItem to='life-cycle' label='Life Cycle Hooks' sx={{ color: '#333' }}/>
+          <NavItem to='custom-counter-hook' label='Custom Counter Hook' sx={{ color: '#333' }}/>
+          <NavItem to='custom-name-hook' label='Custom Name Hook' sx={{ color: '#333' }}/>
         </Toolbar>
       </AppBar>
 

@@ -13,6 +13,8 @@ const LifeCycleHooks = () => {
                 <NavItem label='useState' to='use-state-cycle' sx={{ color: 'black' }}/>
                 <NavItem label='useEffect did mount' to='component-did-mount' sx={{ color: 'black' }}/>
                 <NavItem label='useEffect did update' to='component-did-update' sx={{ color: 'black' }}/>
+                <NavItem label='useEffect will unmount' to='component-will-unmount' sx={{ color: 'black' }}/>
+                <NavItem label='useEffect No Dependancies' to='component-no-dependancies' sx={{ color: 'black' }}/>
             </Toolbar>
         </AppBar>
 

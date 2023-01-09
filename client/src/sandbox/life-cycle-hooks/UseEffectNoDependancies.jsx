@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react'
 import { getTime } from './utils'
 
-const UseEffectasComponentdidUpdate = () => {
+const UseEffectNoDependancies = () => {
     const [count, setCount] = useState(0)
     const [num, setNum] = useState(0)
-    
+
     useEffect(()=>{
         console.log(`in useEffect: ${getTime()}`)
-    }, [count])
-    
-    return (
-        <div>
-            {console.log(`in Render: ${getTime()}`)}
+    })
+  return (
+    <div>
+        {console.log(`in Render: ${getTime()}`)}
             <p>
                 Counter: {count}
             </p>
@@ -21,8 +20,8 @@ const UseEffectasComponentdidUpdate = () => {
 
             <button style={{padding: "10px 30px", borderRadius: '7px', backgroundColor: '#004466', color: '#fbfbfd', border: '0'}} onClick={() => { setCount(prev => prev+1)}}>+ Count</button>
             <button style={{padding: "10px 30px", borderRadius: '7px', backgroundColor: '#004466', color: '#fbfbfd', border: '0'}} onClick={() => { setNum(prev => prev+1)}}>+ Num</button>
-        </div>
-    )
+    </div>
+  )
 }
 
-export default UseEffectasComponentdidUpdate
+export default UseEffectNoDependancies

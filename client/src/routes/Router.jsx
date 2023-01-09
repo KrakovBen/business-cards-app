@@ -14,6 +14,10 @@ import InitialCycle from '../sandbox/life-cycle-hooks/InitialCycle'
 import UseStateCycle from '../sandbox/life-cycle-hooks/UseStateCycle'
 import UseEffectAsComponentDidMount from '../sandbox/life-cycle-hooks/UseEffectAsComponentDidMount'
 import UseEffectasComponentdidUpdate from '../sandbox/life-cycle-hooks/UseEffectasComponentdidUpdate'
+import UseEffectAsComponentWillUnmount from '../sandbox/life-cycle-hooks/UseEffectAsComponentWillUnmount'
+import UseEffectNoDependancies from '../sandbox/life-cycle-hooks/UseEffectNoDependancies'
+import CustomCounterHook from '../sandbox/custom-hooks/CustomCounterHook'
+import CustomName from '../sandbox/custom-hooks/CustomName'
 
 const Router = () => {
     return (
@@ -32,7 +36,11 @@ const Router = () => {
                     <Route path='use-state-cycle' element={<UseStateCycle/>}/>
                     <Route path='component-did-mount' element={<UseEffectAsComponentDidMount/>}/>
                     <Route path='component-did-update' element={<UseEffectasComponentdidUpdate/>}/>
+                    <Route path='component-will-unmount' element={<UseEffectAsComponentWillUnmount/>}/>
+                    <Route path='component-no-dependancies' element={<UseEffectNoDependancies/>}/>
                 </Route>
+                <Route path='custom-counter-hook' element={<CustomCounterHook/>}/>
+                <Route path='custom-name-hook' element={<CustomName/>}/>
             </Route>
 
             <Route path='*' element={<ErrorPage/>} />
